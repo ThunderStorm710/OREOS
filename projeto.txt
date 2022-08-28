@@ -38,10 +38,32 @@
 
 #### 9.Verificar e analisar os dados/metrics usando o prometheus ou a grafana
 
+##### Prometheus-UI
+
 	kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090
+	
+##### Grafana
+
 	kubectl port-forward deployment/prometheus-grafana 3000
-	kubectl port-forward service/mongodb-exporter-prometheus-mongodb-exporter 9216  
+	
+##### Credenciais - Grafana
+
+	Username: admin
+	Password: prom-operator
+	
+###### Mongodb-exporter 
+
+    kubectl port-forward service/mongodb-exporter-prometheus-mongodb-exporter 9216
+    
+###### Alert Manager UI
+
+    kubectl port-forward svc/prometheus-kube-prometheus-alertmanager 9093
+
+
 
 #### Para apagar e limpar tudo
 
 	minikube delete
+	
+##### Referências
+	[https://www.youtube.com/c/TechWorldwithNana]
