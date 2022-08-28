@@ -18,6 +18,7 @@
 #### 5.Criar um configmap mongodb e guardar como mongodb.yaml
 
 	nano
+	
 #### (Usar o ficheiro mongodb.yaml do repositório e copiar o conteúdo)	
 
 #### 6.Aplicar o configmap ao minikube
@@ -28,6 +29,7 @@
 #### 7.Criar outro ficheiro configmap para fazer o override de algumas configurações do mongodb exporter e guardar como values.yaml
 	
 	nano
+	
 #### (Usar o ficheiro values.yaml do repositório e copiar o conteúdo)	
 
 #### 8.Instalar o mongodb exporter juntamente com o values.yaml
@@ -41,4 +43,5 @@
 	kubectl port-forward service/mongodb-exporter-prometheus-mongodb-exporter 9216  
 
 #### Para apagar e limpar tudo
+
 	minikube delete
