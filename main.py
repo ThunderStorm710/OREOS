@@ -456,15 +456,12 @@ def calcular_estatisticas_das_listas(listas):
                 'Mediana': [minI[0], medias[0], maxI[0]],
                 'Mínimo': [minI[1], medias[1], maxI[1]],
                 'Máximo': [minI[2], medias[2], maxI[2]],
-                #'Percentil99': medias[3]
+                # 'Percentil99': medias[3]
             }
 
 
         else:
-            minI = [-1 for _ in range(4)]
-            maxI = [-1 for _ in range(4)]
-            for i in range(len(lista)):
-                minI[i], maxI[i] = calcular_intervalo_confianca(lista[i], 0.05)
+            minI, maxI = calcular_intervalo_confianca(lista, 0.05)
 
             # Listas simples - calcular estatísticas diretas
             medianas = np.mean(lista)
@@ -473,16 +470,15 @@ def calcular_estatisticas_das_listas(listas):
             percentil99 = np.mean(lista)
 
             estatisticas[nome] = {
-                'Mediana': [minI[0], medianas, maxI[0]],
-                'Mínimo': [minI[1], minimos, maxI[1]],
-                'Máximo': [minI[2], maximos, maxI[2]],
-                #'Percentil99': medias[3]
+                'Mediana': [minI, medianas, maxI],
+                'Mínimo': [minI, minimos, maxI],
+                'Máximo': [minI, maximos, maxI],
+                # 'Percentil99': medias[3]
             }
 
     return estatisticas
 
 
-# Função para criar gráfico de boxplot
 def create_boxplot(data, api: bool = True):
     metric_names = list(data.keys())
     if api:
@@ -527,22 +523,25 @@ def calcular_media(value):
 
 
 def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresMicrok8s, titulo: str):
-    print(valoresk3s)
     plataformas = ['Mínimo', 'Mediana', 'Máximo']
     k3s = [valoresk3s['Mínimo'][1], valoresk3s['Mediana'][1], valoresk3s['Máximo'][1]]
     k8s = [valoresk8s['Mínimo'][1], valoresk8s['Mediana'][1], valoresk8s['Máximo'][1]]
     microk8s = [valoresMicrok8s['Mínimo'][1], valoresMicrok8s['Mediana'][1], valoresMicrok8s['Máximo'][1]]
-    print(k3s)
-    print(k8s)
-    print(microk8s)
 
-    #minimo = [valoresk3s['Mínimo'][1], valoresk8s['Mínimo'][1], valoresMicrok8s['Mínimo'][1]]
-    #media = [valoresk3s['Mediana'][1], valoresk8s['Mediana'][1], valoresMicrok8s['Mediana'][1]]
-    #maximo = [valoresk3s['Máximo'][1], valoresk8s['Máximo'][1], valoresMicrok8s['Máximo'][1]]
 
-    ic_k3s = [(valoresk3s['Mínimo'][2]-valoresk3s['Mínimo'][0])/2, (valoresk3s['Mediana'][2]-valoresk3s['Mediana'][0])/2, (valoresk3s['Máximo'][2]-valoresk3s['Máximo'][0])/2]
-    ic_k8s = [(valoresk8s['Mínimo'][2]-valoresk8s['Mínimo'][0]) / 2, (valoresk8s['Mediana'][2] - valoresk8s['Mediana'][0]) / 2, (valoresk8s['Máximo'][2] - valoresk8s['Máximo'][0]) / 2]
-    ic_microk8s = [(valoresMicrok8s['Mínimo'][2]-valoresMicrok8s['Mínimo'][0]) / 2, (valoresMicrok8s['Mediana'][2] - valoresMicrok8s['Mediana'][0]) / 2, (valoresMicrok8s['Máximo'][2] - valoresMicrok8s['Máximo'][0]) / 2]
+    # minimo = [valoresk3s['Mínimo'][1], valoresk8s['Mínimo'][1], valoresMicrok8s['Mínimo'][1]]
+    # media = [valoresk3s['Mediana'][1], valoresk8s['Mediana'][1], valoresMicrok8s['Mediana'][1]]
+    # maximo = [valoresk3s['Máximo'][1], valoresk8s['Máximo'][1], valoresMicrok8s['Máximo'][1]]
+
+    ic_k3s = [(valoresk3s['Mínimo'][2] - valoresk3s['Mínimo'][0]) / 2,
+              (valoresk3s['Mediana'][2] - valoresk3s['Mediana'][0]) / 2,
+              (valoresk3s['Máximo'][2] - valoresk3s['Máximo'][0]) / 2]
+    ic_k8s = [(valoresk8s['Mínimo'][2] - valoresk8s['Mínimo'][0]) / 2,
+              (valoresk8s['Mediana'][2] - valoresk8s['Mediana'][0]) / 2,
+              (valoresk8s['Máximo'][2] - valoresk8s['Máximo'][0]) / 2]
+    ic_microk8s = [(valoresMicrok8s['Mínimo'][2] - valoresMicrok8s['Mínimo'][0]) / 2,
+                   (valoresMicrok8s['Mediana'][2] - valoresMicrok8s['Mediana'][0]) / 2,
+                   (valoresMicrok8s['Máximo'][2] - valoresMicrok8s['Máximo'][0]) / 2]
     # Configura a largura das barras
     largura = 0.2
 
@@ -552,7 +551,8 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresMicrok8s, titulo: str
 
     plt.bar([p - largura for p in posicoes], k3s, width=largura, label='k3s', color='blue', yerr=ic_k3s, capsize=5)
     plt.bar(posicoes, k8s, width=largura, label='k8s', color='orange', yerr=ic_k8s, capsize=5)
-    plt.bar([p + largura for p in posicoes], microk8s, width=largura, label='microk8s', color='green', yerr=ic_microk8s, capsize=5)
+    plt.bar([p + largura for p in posicoes], microk8s, width=largura, label='microk8s', color='green', yerr=ic_microk8s,
+            capsize=5)
     plt.grid("on")
     plt.title(titulo)
 
@@ -574,17 +574,17 @@ if __name__ == '__main__':
         log_content_k3s = k3s.read()
         extract_results(log_content_k3s)
 
-    #estatisticas_deployment_k3s = calcular_estatisticas_das_listas(deployments)
-    #estatisticas_pod_k3s = calcular_estatisticas_das_listas(pods)
+    estatisticas_deployment_k3s = calcular_estatisticas_das_listas(deployments)
+    estatisticas_pod_k3s = calcular_estatisticas_das_listas(pods)
     estatisticas_pod_api_k3s = calcular_estatisticas_das_listas(pod_api)
     estatisticas_deployment_api_k3s = calcular_estatisticas_das_listas(deployment_api)
     estatisticas_namespace_api_k3s = calcular_estatisticas_das_listas(namespace_api)
     estatisticas_service_api_k3s = calcular_estatisticas_das_listas(service_api)
 
-    #print("Estatísticas dos Pods:")
-    #print(estatisticas_pod_k3s)
-    #print("Estatísticas dos Deployments:")
-    #print(estatisticas_deployment_k3s)
+    print("Estatísticas dos Pods:")
+    print(estatisticas_pod_k3s)
+    print("Estatísticas dos Deployments:")
+    print(estatisticas_deployment_k3s)
 
     print("\nEstatísticas dos Pod API:")
     print(estatisticas_pod_api_k3s)
@@ -665,17 +665,17 @@ if __name__ == '__main__':
         extract_results(log_content_k8s)
 
     print(service_api)
-    #estatisticas_deployment_k8s = calcular_estatisticas_das_listas(deployments)
-    #estatisticas_pod_k8s = calcular_estatisticas_das_listas(pods)
+    estatisticas_deployment_k8s = calcular_estatisticas_das_listas(deployments)
+    estatisticas_pod_k8s = calcular_estatisticas_das_listas(pods)
     estatisticas_pod_api_k8s = calcular_estatisticas_das_listas(pod_api)
     estatisticas_deployment_api_k8s = calcular_estatisticas_das_listas(deployment_api)
     estatisticas_namespace_api_k8s = calcular_estatisticas_das_listas(namespace_api)
     estatisticas_service_api_k8s = calcular_estatisticas_das_listas(service_api)
 
-    #print("Estatísticas dos Pods:")
-    #print(estatisticas_pod_k8s)
-    #print("Estatísticas dos Deployments:")
-    #print(estatisticas_deployment_k8s)
+    print("Estatísticas dos Pods:")
+    print(estatisticas_pod_k8s)
+    print("Estatísticas dos Deployments:")
+    print(estatisticas_deployment_k8s)
 
     print("\nEstatísticas dos Pod API:")
     print(estatisticas_pod_api_k8s)
@@ -686,6 +686,27 @@ if __name__ == '__main__':
     print("\nEstatísticas dos Service API:")
     print(estatisticas_service_api_k8s)
 
-    criar_grafico_de_barras(estatisticas_service_api_k3s['Delete Service Latency'],
-                            estatisticas_service_api_k8s['Delete Service Latency'],
-                            estatisticas_service_api_k8s['Delete Service Latency'], "Delete Service Latency")
+
+    for i in estatisticas_pod_k3s.keys():
+        criar_grafico_de_barras(estatisticas_pod_k3s[i], estatisticas_pod_k8s[i],
+                                estatisticas_pod_k8s[i], "Pod Statitics --> " + i)
+
+    for i in estatisticas_deployment_k3s.keys():
+        criar_grafico_de_barras(estatisticas_deployment_k3s[i], estatisticas_deployment_k8s[i],
+                                estatisticas_deployment_k8s[i], "Deployment Statitics --> " + i)
+
+    for i in estatisticas_service_api_k3s.keys():
+        criar_grafico_de_barras(estatisticas_service_api_k3s[i], estatisticas_service_api_k8s[i],
+                                estatisticas_service_api_k8s[i], "Service API --> " + i)
+
+    for i in estatisticas_pod_api_k3s.keys():
+        criar_grafico_de_barras(estatisticas_pod_api_k3s[i], estatisticas_pod_api_k8s[i], estatisticas_pod_api_k8s[i],
+                                "Pod API --> " + i)
+
+    for i in estatisticas_deployment_api_k3s.keys():
+        criar_grafico_de_barras(estatisticas_deployment_api_k3s[i], estatisticas_deployment_api_k8s[i],
+                                estatisticas_deployment_api_k8s[i], "Deployment API -->  " + i)
+
+    for i in estatisticas_namespace_api_k3s.keys():
+        criar_grafico_de_barras(estatisticas_namespace_api_k3s[i], estatisticas_namespace_api_k8s[i],
+                                estatisticas_namespace_api_k8s[i], "Namespace API --> " + i)
