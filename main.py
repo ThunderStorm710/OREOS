@@ -523,7 +523,7 @@ def calcular_media(value):
 
 
 def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str):
-    plataformas = ['Mínimo', 'Mediana', 'Máximo']
+    plataformas = ['Minimum', 'Median', 'Maximum']
     k3s = [valoresk3s['Mínimo'][1], valoresk3s['Mediana'][1], valoresk3s['Máximo'][1]]
     k8s = [valoresk8s['Mínimo'][1], valoresk8s['Mediana'][1], valoresk8s['Máximo'][1]]
     k0s = [valoresk0s['Mínimo'][1], valoresk0s['Mediana'][1], valoresk0s['Máximo'][1]]
@@ -543,20 +543,19 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str):
     posicoes = range(len(plataformas))
 
 
-    plt.bar([p - largura for p in posicoes], k3s, width=largura, label='k3s', color='blue', yerr=ic_k3s, capsize=5)
-    plt.bar(posicoes, k8s, width=largura, label='k8s', color='orange', yerr=ic_k8s, capsize=5)
-    plt.bar([p + largura for p in posicoes], k0s, width=largura, label='k0s', color='green', yerr=ic_k0s,
-            capsize=5)
+    plt.bar([p - largura for p in posicoes], k0s, width=largura, label='k0s', color='green', yerr=ic_k0s, capsize=5)
+    plt.bar(posicoes, k3s, width=largura, label='k3s', color='blue', yerr=ic_k3s, capsize=5)
+    plt.bar([p + largura for p in posicoes], k8s, width=largura, label='k8s', color='orange', yerr=ic_k8s, capsize=5)
     plt.grid("on")
     plt.title(titulo)
 
     # Define os rótulos do eixo x
     plt.xticks(posicoes, plataformas)
     # plt.xlabel("Mínimo, Mediana e Máximo de cada distribuição")
-    plt.ylabel("Tempo (ms)")
+    plt.ylabel("Time (ms)")
 
     # Exibe o gráfico de barras
-    plt.legend(['k3s', 'k8s', 'k0s'], loc='upper right', bbox_to_anchor=(1.15, 1.0))
+    plt.legend(['k0s','k3s', 'k8s'], loc='upper right', bbox_to_anchor=(1.15, 1.0))
     plt.show()
 
 
