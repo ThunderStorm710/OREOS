@@ -535,13 +535,12 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str):
               (valoresk8s['Mediana'][2] - valoresk8s['Mediana'][0]) / 2,
               (valoresk8s['Máximo'][2] - valoresk8s['Máximo'][0]) / 2]
     ic_k0s = [(valoresk0s['Mínimo'][2] - valoresk0s['Mínimo'][0]) / 2,
-                   (valoresk0s['Mediana'][2] - valoresk0s['Mediana'][0]) / 2,
-                   (valoresk0s['Máximo'][2] - valoresk0s['Máximo'][0]) / 2]
+              (valoresk0s['Mediana'][2] - valoresk0s['Mediana'][0]) / 2,
+              (valoresk0s['Máximo'][2] - valoresk0s['Máximo'][0]) / 2]
     # Configura a largura das barras
     largura = 0.2
 
     posicoes = range(len(plataformas))
-
 
     plt.bar([p - largura for p in posicoes], k0s, width=largura, label='k0s', color='green', yerr=ic_k0s, capsize=5)
     plt.bar(posicoes, k3s, width=largura, label='k3s', color='blue', yerr=ic_k3s, capsize=5)
@@ -555,8 +554,12 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str):
     plt.ylabel("Time (ms)")
 
     # Exibe o gráfico de barras
-    plt.legend(['k0s','k3s', 'k8s'], loc='upper right', bbox_to_anchor=(1.15, 1.0))
+    plt.tight_layout(rect=[0, 0, 0.85, 1])
+    # Exibe o gráfico de barras
+    plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(1.04, 0.5), loc="center left", )
     plt.show()
+    file = f"{titulo}-cp_light_1client.png"
+    plt.savefig(file)
 
 
 if __name__ == '__main__':
@@ -768,8 +771,6 @@ if __name__ == '__main__':
         'Pod Creation Avg Latency': [],
         'Pod Startup Total Latency': [],
     }
-
-
 
     for i in estatisticas_pod_k0s.keys():
         criar_grafico_de_barras(estatisticas_pod_k3s[i], estatisticas_pod_k8s[i],
