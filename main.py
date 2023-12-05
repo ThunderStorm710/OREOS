@@ -557,9 +557,11 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str):
     plt.tight_layout(rect=[0, 0, 0.85, 1])
     # Exibe o gráfico de barras
     plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(1.04, 0.5), loc="center left", )
-    plt.show()
+    titulo = titulo.replace(" ", "_")
+    titulo = titulo.replace(">", "_")
     file = f"{titulo}-cp_light_1client.png"
     plt.savefig(file)
+    plt.show()
 
 
 if __name__ == '__main__':
