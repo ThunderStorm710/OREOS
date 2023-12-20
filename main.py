@@ -18,6 +18,8 @@ pod_starting_latency_stats = []
 pod_creation_avg_latency = []
 pod_startup_total_latecy = []
 
+ficheiro = "cp_light_4client"
+
 pods = {
     'Pod Creation Throughput': [],
     'Pod Client-Server E2E Latency': [],
@@ -29,39 +31,38 @@ pods = {
 }
 pod_api = {
 
-    "Delete Pod Latency": [],
-    "Create Pod Latency": [],
-    "List Pod Latency": [],
-    "Get Pod Latency": [],
-    "Update Pod Latency": []
+    "Delete Latency": [],
+    "Create Latency": [],
+    "List Latency": [],
+    "Get Latency": [],
+    "Update Latency": []
 }
 service_api = {
 
-    "Delete Service Latency": [],
-    "Create Service Latency": [],
-    "List Service Latency": [],
-    "Get Service Latency": [],
-    "Update Service Latency": []
+    "Delete Latency": [],
+    "Create Latency": [],
+    "List Latency": [],
+    "Get Latency": [],
+    "Update Latency": []
 }
 
 deployment_api = {
 
-    "Delete Deployment Latency": [],
-    "Create Deployment Latency": [],
-    "List Deployment Latency": [],
-    "Get Deployment Latency": [],
-    "Update Deployment Latency": []
+    "Delete Latency": [],
+    "Create Latency": [],
+    "List Latency": [],
+    "Get Latency": [],
+    "Update Latency": []
 }
 
 namespace_api = {
 
-    "Delete Namespace Latency": [],
-    "Create Namespace Latency": [],
-    "List Namespace Latency": [],
-    "Get Namespace Latency": [],
-    "Update Namespace Latency": []
+    "Delete Latency": [],
+    "Create Latency": [],
+    "List Latency": [],
+    "Get Latency": [],
+    "Update Latency": []
 }
-
 deployments = {
     'Pod Creation Throughput': [],
     'Pod Client-Server E2E Latency': [],
@@ -159,7 +160,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                pod_api['Delete Pod Latency'].append(l)
+                pod_api['Delete Latency'].append(l)
             elif "create pod latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -168,7 +169,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                pod_api['Create Pod Latency'].append(l)
+                pod_api['Create Latency'].append(l)
             elif "list pod latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -177,7 +178,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                pod_api['List Pod Latency'].append(l)
+                pod_api['List Latency'].append(l)
             elif "get pod latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -186,7 +187,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                pod_api['Get Pod Latency'].append(l)
+                pod_api['Get Latency'].append(l)
             elif "update pod latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -195,7 +196,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                pod_api['Update Pod Latency'].append(l)
+                pod_api['Update Latency'].append(l)
 
         print(f"Pod Success Rate: {pod_success_rate}%")
 
@@ -279,7 +280,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                deployment_api['Delete Deployment Latency'].append(l)
+                deployment_api['Delete Latency'].append(l)
             elif "create deployment latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -288,7 +289,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                deployment_api['Create Deployment Latency'].append(l)
+                deployment_api['Create Latency'].append(l)
             elif "list deployment latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -297,7 +298,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                deployment_api['List Deployment Latency'].append(l)
+                deployment_api['List Latency'].append(l)
             elif "get deployment latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -306,7 +307,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                deployment_api['Get Deployment Latency'].append(l)
+                deployment_api['Get Latency'].append(l)
             elif "update deployment latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -315,7 +316,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                deployment_api['Update Deployment Latency'].append(l)
+                deployment_api['Update Latency'].append(l)
 
     if namespace_results_match or namespace_results_match1:
         if namespace_results_match:
@@ -334,7 +335,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                namespace_api['Delete Namespace Latency'].append(l)
+                namespace_api['Delete Latency'].append(l)
             elif "create namespace latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -343,7 +344,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                namespace_api['Create Namespace Latency'].append(l)
+                namespace_api['Create Latency'].append(l)
             elif "list namespace latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -352,7 +353,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                namespace_api['List Namespace Latency'].append(l)
+                namespace_api['List Latency'].append(l)
             elif "get namespace latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -361,7 +362,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                namespace_api['Get Namespace Latency'].append(l)
+                namespace_api['Get Latency'].append(l)
             elif "update namespace latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -370,7 +371,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                namespace_api['Update Namespace Latency'].append(l)
+                namespace_api['Update Latency'].append(l)
 
     if service_results_match:
         service_results_content = service_results_match.group(1).strip()
@@ -386,7 +387,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                service_api['Delete Service Latency'].append(l)
+                service_api['Delete Latency'].append(l)
             elif "create service latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -395,7 +396,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                service_api['Create Service Latency'].append(l)
+                service_api['Create Latency'].append(l)
             elif "list service latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -404,7 +405,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                service_api['List Service Latency'].append(l)
+                service_api['List Latency'].append(l)
             elif "get service latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -413,7 +414,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                service_api['Get Service Latency'].append(l)
+                service_api['Get Latency'].append(l)
             elif "update service latency" in i:
                 linha = re.split(":|\t|\"", i)
                 # print(linha)
@@ -422,7 +423,7 @@ def extract_results(log_content):
                 l = []
                 for j in numeros:
                     l.append(float(j))
-                service_api['Update Service Latency'].append(l)
+                service_api['Update Latency'].append(l)
 
 
 # Função para calcular o intervalo de confiança
@@ -479,49 +480,6 @@ def calcular_estatisticas_das_listas(listas):
     return estatisticas
 
 
-def create_boxplot(data, api: bool = True):
-    metric_names = list(data.keys())
-    if api:
-        for metric in metric_names:
-            values = data[metric]
-            medians = [v[0] for v in values.values()]
-            minimums = [v[1] for v in values.values()]
-            maximums = [v[2] for v in values.values()]
-            percentiles_99 = [v[3] for v in values.values()]
-
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.boxplot([medians, minimums, maximums, percentiles_99], vert=False)
-            ax.set_yticklabels(['Median', 'Minimum', 'Maximum', '99th Percentile'])
-            ax.set_xlabel('Values')
-            ax.set_title(f'Boxplots for {metric}')
-
-        plt.show()
-    else:
-        # Criar boxplot para cada conjunto de dados
-        for key, value in data.items():
-            if isinstance(value['Média'], list):
-                means = [value['Média'], value['Mediana'], value['Mínimo'], value['Máximo']]
-                create_boxplot1(means, key)
-            else:
-                create_boxplot1([[value['Média']], [value['Mediana']], [value['Mínimo']], [value['Máximo']]], key)
-
-
-def create_boxplot1(data, title):
-    fig, ax = plt.subplots()
-    ax.boxplot(data, vert=False, labels=['Média', 'Mediana', 'Mínimo', 'Máximo'])
-
-    ax.set_title(title)
-
-    plt.show()
-
-
-def calcular_media(value):
-    if isinstance(value['Média'], list):
-        return [sum(x) / len(x) for x in zip(*value['Média'])]
-    else:
-        return value['Média']
-
-
 def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str):
     plataformas = ['Minimum', 'Median', 'Maximum']
     k3s = [valoresk3s['Mínimo'][1], valoresk3s['Mediana'][1], valoresk3s['Máximo'][1]]
@@ -546,37 +504,89 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str):
     plt.bar(posicoes, k3s, width=largura, label='k3s', color='blue', yerr=ic_k3s, capsize=5)
     plt.bar([p + largura for p in posicoes], k8s, width=largura, label='k8s', color='orange', yerr=ic_k8s, capsize=5)
     plt.grid("on")
-    plt.title(titulo)
+    # plt.title(titulo)
 
-    # Define os rótulos do eixo x
     plt.xticks(posicoes, plataformas)
     # plt.xlabel("Mínimo, Mediana e Máximo de cada distribuição")
-    plt.ylabel("Time (ms)")
+    if not "Throughput" in titulo:
+        plt.ylabel("Time (ms)")
+    else:
+        plt.ylabel("Number of pods per second")
 
-    # Exibe o gráfico de barras
-    plt.tight_layout(rect=[0, 0, 0.85, 1])
-    # Exibe o gráfico de barras
-    plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(1.04, 0.5), loc="center left", )
-    titulo = titulo.replace(" ", "_")
-    titulo = titulo.replace(">", "_")
-    file = f"{titulo}-cp_light_1client.png"
+    plt.tight_layout(rect=[0, 0, 1, 0.85])
+    plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand",
+               borderaxespad=0, ncol=3)
+    titulo = titulo.replace(" ", "")
+    titulo = titulo.replace(">", "")
+    file = f"{titulo}-{ficheiro}.png"
+    plt.savefig(file)
+    plt.show()
+
+
+def criar_grafico_de_barras_api(valoresk0s, valoresk3s, valoresk8s, titulo: str):
+    operacoes = ['Create Latency', 'Delete Latency', 'Get Latency', 'List Latency', 'Update Latency']
+    labels = ['k0s', 'k3s', 'k8s']
+    cores = ['grey', 'blue', 'orange', 'black']
+
+    posicoes = list(range(len(operacoes)))
+    largura = 0.2
+
+    k0s = [valoresk0s['Create Latency']['Mediana'][1], valoresk0s['Delete Latency']['Mediana'][1],
+           valoresk0s['Get Latency']['Mediana'][1], valoresk0s['List Latency']['Mediana'][1],
+           valoresk0s['Update Latency']['Mediana'][1]]
+    k3s = [valoresk3s['Create Latency']['Mediana'][1], valoresk3s['Delete Latency']['Mediana'][1],
+           valoresk3s['Get Latency']['Mediana'][1], valoresk3s['List Latency']['Mediana'][1],
+           valoresk3s['Update Latency']['Mediana'][1]]
+    k8s = [valoresk8s['Create Latency']['Mediana'][1], valoresk8s['Delete Latency']['Mediana'][1],
+           valoresk8s['Get Latency']['Mediana'][1], valoresk8s['List Latency']['Mediana'][1],
+           valoresk8s['Update Latency']['Mediana'][1]]
+
+    ic_k0s = [valoresk0s['Create Latency']['Mínimo'][1], valoresk0s['Delete Latency']['Mínimo'][1],
+              valoresk0s['Get Latency']['Mínimo'][1], valoresk0s['List Latency']['Mínimo'][1],
+              valoresk0s['Update Latency']['Mínimo'][1]]
+    ic_k8s = [valoresk8s['Create Latency']['Mínimo'][1], valoresk8s['Delete Latency']['Mínimo'][1],
+              valoresk8s['Get Latency']['Mínimo'][1], valoresk8s['List Latency']['Mínimo'][1],
+              valoresk8s['Update Latency']['Mínimo'][1]]
+    ic_k3s = [valoresk3s['Create Latency']['Mínimo'][1], valoresk3s['Delete Latency']['Mínimo'][1],
+              valoresk3s['Get Latency']['Mínimo'][1], valoresk3s['List Latency']['Mínimo'][1],
+              valoresk3s['Update Latency']['Mínimo'][1]]
+
+    plt.figure(figsize=(10, 5))
+    plt.grid(True)
+
+    plt.bar([p - largura for p in posicoes], k0s, width=largura, label='k0s', color='green', yerr=ic_k0s, capsize=5)
+    plt.bar(posicoes, k3s, width=largura, label='k3s', color='blue', yerr=ic_k3s, capsize=5)
+    plt.bar([p + largura for p in posicoes], k8s, width=largura, label='k8s', color='orange', yerr=ic_k8s, capsize=5)
+
+    plt.xticks(posicoes, operacoes)
+
+    plt.ylabel("Latency (ms)")
+
+    # Adiciona título e legenda
+    # plt.title(titulo)
+    plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand",
+               borderaxespad=0, ncol=3)
+    # Salva e mostra o gráfico
+    # plt.tight_layout(rect=[0, 0, 1, 0.85])
+    titulo = titulo.replace(' ', '_').replace('>', '')
+    file = f"{titulo}.png"
     plt.savefig(file)
     plt.show()
 
 
 if __name__ == '__main__':
     for i in range(1, 31):
-        print(f'k3s/cp_light_1client/cp_light_1client_{i}.logs')
-        k3s = open(f'k3s/cp_light_1client/cp_light_1client_{i}.logs', 'r')
+        print(f'k3s/{ficheiro}/{ficheiro}_{i}.logs')
+        k3s = open(f'k3s/{ficheiro}/{ficheiro}_{i}.logs', 'r')
 
         log_content_k3s = k3s.read()
         extract_results(log_content_k3s)
 
     estatisticas_deployment_k3s = calcular_estatisticas_das_listas(deployments)
     estatisticas_pod_k3s = calcular_estatisticas_das_listas(pods)
-    estatisticas_pod_api_k3s = calcular_estatisticas_das_listas(pod_api)
+    # estatisticas_pod_api_k3s = calcular_estatisticas_das_listas(pod_api)
     estatisticas_deployment_api_k3s = calcular_estatisticas_das_listas(deployment_api)
-    estatisticas_namespace_api_k3s = calcular_estatisticas_das_listas(namespace_api)
+    # estatisticas_namespace_api_k3s = calcular_estatisticas_das_listas(namespace_api)
     estatisticas_service_api_k3s = calcular_estatisticas_das_listas(service_api)
 
     print("Estatísticas dos Pods:")
@@ -584,12 +594,12 @@ if __name__ == '__main__':
     print("Estatísticas dos Deployments:")
     print(estatisticas_deployment_k3s)
 
-    print("\nEstatísticas dos Pod API:")
-    print(estatisticas_pod_api_k3s)
+    # print("\nEstatísticas dos Pod API:")
+    # print(estatisticas_pod_api_k3s)
     print("\nEstatísticas dos Deployment API:")
     print(estatisticas_deployment_api_k3s)
     print("\nEstatísticas dos NameSpace API:")
-    print(estatisticas_namespace_api_k3s)
+    # print(estatisticas_namespace_api_k3s)
     print("\nEstatísticas dos Service API:")
     print(estatisticas_service_api_k3s)
 
@@ -612,37 +622,37 @@ if __name__ == '__main__':
     }
     pod_api = {
 
-        "Delete Pod Latency": [],
-        "Create Pod Latency": [],
-        "List Pod Latency": [],
-        "Get Pod Latency": [],
-        "Update Pod Latency": []
+        "Delete Latency": [],
+        "Create Latency": [],
+        "List Latency": [],
+        "Get Latency": [],
+        "Update Latency": []
     }
     service_api = {
 
-        "Delete Service Latency": [],
-        "Create Service Latency": [],
-        "List Service Latency": [],
-        "Get Service Latency": [],
-        "Update Service Latency": []
+        "Delete Latency": [],
+        "Create Latency": [],
+        "List Latency": [],
+        "Get Latency": [],
+        "Update Latency": []
     }
 
     deployment_api = {
 
-        "Delete Deployment Latency": [],
-        "Create Deployment Latency": [],
-        "List Deployment Latency": [],
-        "Get Deployment Latency": [],
-        "Update Deployment Latency": []
+        "Delete Latency": [],
+        "Create Latency": [],
+        "List Latency": [],
+        "Get Latency": [],
+        "Update Latency": []
     }
 
     namespace_api = {
 
-        "Delete Namespace Latency": [],
-        "Create Namespace Latency": [],
-        "List Namespace Latency": [],
-        "Get Namespace Latency": [],
-        "Update Namespace Latency": []
+        "Delete Latency": [],
+        "Create Latency": [],
+        "List Latency": [],
+        "Get Latency": [],
+        "Update Latency": []
     }
 
     deployments = {
@@ -656,8 +666,8 @@ if __name__ == '__main__':
     }
 
     for i in range(1, 31):
-        print(f'k8s/cp_light_1client/cp_light_1client_{i}.logs')
-        k8s = open(f'k8s/cp_light_1client/cp_light_1client_{i}.logs', 'r')
+        print(f'k8s/{ficheiro}/{ficheiro}_{i}.logs')
+        k8s = open(f'k8s/{ficheiro}/{ficheiro}_{i}.logs', 'r')
 
         log_content_k8s = k8s.read()
         extract_results(log_content_k8s)
@@ -665,9 +675,9 @@ if __name__ == '__main__':
     print(service_api)
     estatisticas_deployment_k8s = calcular_estatisticas_das_listas(deployments)
     estatisticas_pod_k8s = calcular_estatisticas_das_listas(pods)
-    estatisticas_pod_api_k8s = calcular_estatisticas_das_listas(pod_api)
+    # estatisticas_pod_api_k8s = calcular_estatisticas_das_listas(pod_api)
     estatisticas_deployment_api_k8s = calcular_estatisticas_das_listas(deployment_api)
-    estatisticas_namespace_api_k8s = calcular_estatisticas_das_listas(namespace_api)
+    # estatisticas_namespace_api_k8s = calcular_estatisticas_das_listas(namespace_api)
     estatisticas_service_api_k8s = calcular_estatisticas_das_listas(service_api)
 
     print("Estatísticas dos Pods:")
@@ -675,27 +685,28 @@ if __name__ == '__main__':
     print("Estatísticas dos Deployments:")
     print(estatisticas_deployment_k8s)
 
-    print("\nEstatísticas dos Pod API:")
-    print(estatisticas_pod_api_k8s)
+    # print("\nEstatísticas dos Pod API:")
+    # print(estatisticas_pod_api_k8s)
     print("\nEstatísticas dos Deployment API:")
     print(estatisticas_deployment_api_k8s)
-    print("\nEstatísticas dos NameSpace API:")
-    print(estatisticas_namespace_api_k8s)
+    print(estatisticas_deployment_api_k8s)
+    # print("\nEstatísticas dos NameSpace API:")
+    # print(estatisticas_namespace_api_k8s)
     print("\nEstatísticas dos Service API:")
     print(estatisticas_service_api_k8s)
 
     for i in range(1, 31):
-        print(f'k0s/cp_light_1client/cp_light_1client_{i}.logs')
-        k0s = open(f'k0s/cp_light_1client/cp_light_1client_{i}.logs', 'r')
+        print(f'k0s/{ficheiro}/{ficheiro}_{i}.logs')
+        k0s = open(f'k0s/{ficheiro}/{ficheiro}_{i}.logs', 'r')
 
         log_content_k0s = k0s.read()
         extract_results(log_content_k0s)
 
     estatisticas_deployment_k0s = calcular_estatisticas_das_listas(deployments)
     estatisticas_pod_k0s = calcular_estatisticas_das_listas(pods)
-    estatisticas_pod_api_k0s = calcular_estatisticas_das_listas(pod_api)
+    # estatisticas_pod_api_k0s = calcular_estatisticas_das_listas(pod_api)
     estatisticas_deployment_api_k0s = calcular_estatisticas_das_listas(deployment_api)
-    estatisticas_namespace_api_k0s = calcular_estatisticas_das_listas(namespace_api)
+    # estatisticas_namespace_api_k0s = calcular_estatisticas_das_listas(namespace_api)
     estatisticas_service_api_k0s = calcular_estatisticas_das_listas(service_api)
 
     print("Estatísticas dos Pods:")
@@ -703,12 +714,12 @@ if __name__ == '__main__':
     print("Estatísticas dos Deployments:")
     print(estatisticas_deployment_k0s)
 
-    print("\nEstatísticas dos Pod API:")
-    print(estatisticas_pod_api_k0s)
+    # print("\nEstatísticas dos Pod API:")
+    # print(estatisticas_pod_api_k0s)
     print("\nEstatísticas dos Deployment API:")
     print(estatisticas_deployment_api_k0s)
-    print("\nEstatísticas dos NameSpace API:")
-    print(estatisticas_namespace_api_k0s)
+    # print("\nEstatísticas dos NameSpace API:")
+    # print(estatisticas_namespace_api_k0s)
     print("\nEstatísticas dos Service API:")
     print(estatisticas_service_api_k0s)
 
@@ -731,39 +742,38 @@ if __name__ == '__main__':
     }
     pod_api = {
 
-        "Delete Pod Latency": [],
-        "Create Pod Latency": [],
-        "List Pod Latency": [],
-        "Get Pod Latency": [],
-        "Update Pod Latency": []
+        "Delete Latency": [],
+        "Create Latency": [],
+        "List Latency": [],
+        "Get Latency": [],
+        "Update Latency": []
     }
     service_api = {
 
-        "Delete Service Latency": [],
-        "Create Service Latency": [],
-        "List Service Latency": [],
-        "Get Service Latency": [],
-        "Update Service Latency": []
+        "Delete Latency": [],
+        "Create Latency": [],
+        "List Latency": [],
+        "Get Latency": [],
+        "Update Latency": []
     }
 
     deployment_api = {
 
-        "Delete Deployment Latency": [],
-        "Create Deployment Latency": [],
-        "List Deployment Latency": [],
-        "Get Deployment Latency": [],
-        "Update Deployment Latency": []
+        "Delete Latency": [],
+        "Create Latency": [],
+        "List Latency": [],
+        "Get Latency": [],
+        "Update Latency": []
     }
 
     namespace_api = {
 
-        "Delete Namespace Latency": [],
-        "Create Namespace Latency": [],
-        "List Namespace Latency": [],
-        "Get Namespace Latency": [],
-        "Update Namespace Latency": []
+        "Delete Latency": [],
+        "Create Latency": [],
+        "List Latency": [],
+        "Get Latency": [],
+        "Update Latency": []
     }
-
     deployments = {
         'Pod Creation Throughput': [],
         'Pod Client-Server E2E Latency': [],
@@ -782,18 +792,10 @@ if __name__ == '__main__':
         criar_grafico_de_barras(estatisticas_deployment_k3s[i], estatisticas_deployment_k8s[i],
                                 estatisticas_deployment_k0s[i], "Deployment Statitics --> " + i)
 
-    for i in estatisticas_service_api_k0s.keys():
-        criar_grafico_de_barras(estatisticas_service_api_k3s[i], estatisticas_service_api_k8s[i],
-                                estatisticas_service_api_k0s[i], "Service API --> " + i)
-
-    for i in estatisticas_pod_api_k0s.keys():
-        criar_grafico_de_barras(estatisticas_pod_api_k3s[i], estatisticas_pod_api_k8s[i], estatisticas_pod_api_k0s[i],
-                                "Pod API --> " + i)
-
-    for i in estatisticas_deployment_api_k0s.keys():
-        criar_grafico_de_barras(estatisticas_deployment_api_k3s[i], estatisticas_deployment_api_k8s[i],
-                                estatisticas_deployment_api_k0s[i], "Deployment API -->  " + i)
-
-    for i in estatisticas_namespace_api_k0s.keys():
-        criar_grafico_de_barras(estatisticas_namespace_api_k3s[i], estatisticas_namespace_api_k8s[i],
-                                estatisticas_namespace_api_k0s[i], "Namespace API --> " + i)
+    criar_grafico_de_barras_api(estatisticas_service_api_k0s, estatisticas_service_api_k3s,
+                                estatisticas_service_api_k8s, f"{ficheiro}-ServiceAPI")
+    criar_grafico_de_barras_api(estatisticas_deployment_api_k0s, estatisticas_deployment_api_k3s,
+                                estatisticas_deployment_api_k8s, f"{ficheiro}-DeploymentAPI")
+    # criar_grafico_de_barras_api(data, "Service API --> ")
+    # criar_grafico_de_barras_api(estatisticas_pod_api_k0s,estatisticas_pod_api_k3s, estatisticas_pod_api_k8s,f"{ficheiro}-PodAPI")
+    # criar_grafico_de_barras_api(estatisticas_namespace_api_k3s[i], estatisticas_namespace_api_k8s[i],estatisticas_namespace_api_k0s[i], f"{ficheiro}-NamespaceAPI")
