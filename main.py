@@ -148,7 +148,6 @@ def extract_results(log_content):
                 # print(numeros)
                 l = []
                 for j in numeros:
-                    print(j)
                     l.append(float(j))
                 pods['Pod Scheduling Latency Stats'].append(l)
 
@@ -469,7 +468,6 @@ def calcular_estatisticas_das_listas(listas):
 
         if isinstance(lista[0], list):
             lista_transposta = np.array(lista).T
-            print(lista_transposta)
             medias = [np.mean(sublista) for sublista in lista_transposta]
             minI = [-1 for _ in range(4)]
             maxI = [-1 for _ in range(4)]
@@ -862,8 +860,6 @@ if __name__ == '__main__':
         print(estatisticas_service_api_k0s)
 
         k0sGlobal[j]['pods'] = estatisticas_pod_k0s.copy()
-        print("!-0", k0sGlobal[j]['pods'])
-
         k0sGlobal[j]['deployments'] = estatisticas_deployment_k0s.copy()
         k0sGlobal[j]['deployment_api'] = estatisticas_deployment_api_k0s.copy()
         k0sGlobal[j]['service_api'] = estatisticas_service_api_k0s.copy()
