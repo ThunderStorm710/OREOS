@@ -4,13 +4,16 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 # Define regular expressions for extracting relevant information
+from scipy.stats import norm
+
 pod_results_pattern = re.compile(r'Pod Results(.+?)Pod Creation Success Rate: ([\d.]+) %', re.DOTALL)
 deployment_results_pattern = re.compile(r'Deployment Results(.+?)Pod Creation Success Rate: ([\d.]+) %', re.DOTALL)
 namespace_results_pattern = re.compile(r'Namespace Results(.+?)Service API Call Latencies \(ms\)', re.DOTALL)
 namespace_results_pattern1 = re.compile(r'Namespace Results(.+?)Benchmark run completed.', re.DOTALL)
 service_results_pattern = re.compile(r'Service Results(.+?)Benchmark run completed.', re.DOTALL)
 
-ficheiros = ["cp_light_1client", "cp_light_4client", "cp_heavy_8client", "cp_heavy_12client", "cp_heavy_16client", "cp_heavy_20client", "cp_heavy_24client"]
+ficheiros = ["cp_light_1client", "cp_light_4client", "cp_heavy_8client", "cp_heavy_12client", "cp_heavy_16client",
+             "cp_heavy_20client", "cp_heavy_24client"]
 
 pods = {
     'Pod Creation Throughput': [],
@@ -89,9 +92,12 @@ heavy_24 = {'pods': pods.copy(), 'deployments': deployments.copy(), 'pods_api': 
             'service_api': service_api.copy(),
             'namespace_api': namespace_api.copy(), 'deployments_api': deployment_api.copy()}
 
-k0sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(), heavy_24.copy()]
-k3sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(), heavy_24.copy()]
-k8sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(), heavy_24.copy()]
+k0sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(),
+             heavy_24.copy()]
+k3sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(),
+             heavy_24.copy()]
+k8sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(),
+             heavy_24.copy()]
 
 
 # Function to extract and print the relevant information
@@ -448,6 +454,7 @@ def extract_results(log_content):
 
 # Função para calcular o intervalo de confiança
 def calcular_intervalo_confianca(dados, alpha):
+    dados = limpeza_outliers(dados)
     media = np.mean(dados)
     desvio_padrao = np.std(dados, ddof=1)  # Usar ddof=1 para calcular o desvio padrão amostral
     tamanho_amostra = len(dados)
@@ -458,7 +465,40 @@ def calcular_intervalo_confianca(dados, alpha):
     intervalo_inferior = media - margem_erro
     intervalo_superior = media + margem_erro
 
+    if intervalo_inferior < 0:
+        print(intervalo_inferior, "-_-!")
+        intervalo_inferior = 1
+    print(intervalo_inferior, "-_-")
+
     return intervalo_inferior, intervalo_superior
+
+
+def limpeza_outliers(data):
+    print(data)
+    print(type(data))
+    if type(data) != list:
+        data = data.tolist()
+    mean = np.mean(data)
+    std_dev = np.std(data)
+    # Definindo o limite para considerar um dado como outlier
+    threshold = 2
+
+    # Identificando outliers
+    outliers = (data < (mean - threshold * std_dev)) | (data > (mean + threshold * std_dev))
+    outliers = outliers.tolist()
+    print(outliers)
+    i = 0
+    while i < len(data):
+        if outliers[i]:
+            print(type(data))
+            data.pop(i)
+            outliers.pop(i)
+            i = 0
+        i += 1
+    # Filtrando os outliers
+    #cleaned_data_corrected = data[~outliers]
+    print(data)
+    return data
 
 
 def calcular_estatisticas_das_listas(listas):
@@ -469,8 +509,8 @@ def calcular_estatisticas_das_listas(listas):
         if isinstance(lista[0], list):
             lista_transposta = np.array(lista).T
             medias = [np.mean(sublista) for sublista in lista_transposta]
-            minI = [-1 for _ in range(4)]
-            maxI = [-1 for _ in range(4)]
+            minI = [0 for _ in range(4)]
+            maxI = [0 for _ in range(4)]
             for i in range(len(lista_transposta)):
                 minI[i], maxI[i] = calcular_intervalo_confianca(lista_transposta[i], 0.05)
 
@@ -571,11 +611,13 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
 
             valor_k3s = valoresk3s[i]['pods'][titulo]['Mediana'][1]
             ic_k3s = (valoresk3s[i]['pods'][titulo]['Mediana'][2] - valoresk3s[i]['pods'][titulo]['Mediana'][0]) / 2
-            ax.bar(posicao_grupo + largura, valor_k3s, largura, yerr=ic_k3s, label='k3s', color=cores, capsize=2, hatch="|")
+            ax.bar(posicao_grupo + largura, valor_k3s, largura, yerr=ic_k3s, label='k3s', color=cores, capsize=2,
+                   hatch="|")
 
             valor_k8s = valoresk8s[i]['pods'][titulo]['Mediana'][1]
             ic_k8s = (valoresk8s[i]['pods'][titulo]['Mediana'][2] - valoresk8s[i]['pods'][titulo]['Mediana'][0]) / 2
-            ax.bar(posicao_grupo + largura * 2, valor_k8s, largura, yerr=ic_k8s, label='k8s', color=cores, capsize=2, hatch="-")
+            ax.bar(posicao_grupo + largura * 2, valor_k8s, largura, yerr=ic_k8s, label='k8s', color=cores, capsize=2,
+                   hatch="-")
 
         ax.set_xticks(indices_grandes + 0.1)
         ax.set_xticklabels(grupos_grandes, fontsize=14)
