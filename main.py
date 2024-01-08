@@ -10,7 +10,7 @@ namespace_results_pattern = re.compile(r'Namespace Results(.+?)Service API Call 
 namespace_results_pattern1 = re.compile(r'Namespace Results(.+?)Benchmark run completed.', re.DOTALL)
 service_results_pattern = re.compile(r'Service Results(.+?)Benchmark run completed.', re.DOTALL)
 
-ficheiros = ["cp_light_1client", "cp_light_4client", "cp_heavy_8client", "cp_heavy_12client"]
+ficheiros = ["cp_light_1client", "cp_light_4client", "cp_heavy_8client", "cp_heavy_12client", "cp_heavy_16client", "cp_heavy_20client", "cp_heavy_24client"]
 
 pods = {
     'Pod Creation Throughput': [],
@@ -136,6 +136,7 @@ def extract_results(log_content):
                 # print(numeros)
                 l = []
                 for j in numeros:
+                    print(j)
                     l.append(float(j))
                 pods['Pod Scheduling Latency Stats'].append(l)
 
@@ -531,7 +532,7 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str, fic
 
 
 def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo):
-    grupos_grandes = ['1 client', '4 clients', '8 clients', '12 clients']
+    grupos_grandes = ['1 client', '4 clients', '8 clients', '12 clients', '16 clients', '20 clients', '24 clients']
     subgrupos = ['Mínimo', 'Mediana', 'Máximo']
     nomes = ['Minimum', 'Median', 'Maximum']
 
