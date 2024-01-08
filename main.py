@@ -77,9 +77,21 @@ heavy_12 = {'pods': pods.copy(), 'deployments': deployments.copy(), 'pods_api': 
             'service_api': service_api.copy(),
             'namespace_api': namespace_api.copy(), 'deployments_api': deployment_api.copy()}
 
-k0sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy()]
-k3sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy()]
-k8sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy()]
+heavy_16 = {'pods': pods.copy(), 'deployments': deployments.copy(), 'pods_api': pod_api.copy(),
+            'service_api': service_api.copy(),
+            'namespace_api': namespace_api.copy(), 'deployments_api': deployment_api.copy()}
+
+heavy_20 = {'pods': pods.copy(), 'deployments': deployments.copy(), 'pods_api': pod_api.copy(),
+            'service_api': service_api.copy(),
+            'namespace_api': namespace_api.copy(), 'deployments_api': deployment_api.copy()}
+
+heavy_24 = {'pods': pods.copy(), 'deployments': deployments.copy(), 'pods_api': pod_api.copy(),
+            'service_api': service_api.copy(),
+            'namespace_api': namespace_api.copy(), 'deployments_api': deployment_api.copy()}
+
+k0sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(), heavy_24.copy()]
+k3sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(), heavy_24.copy()]
+k8sGlobal = [light_1.copy(), light_4.copy(), heavy_8.copy(), heavy_12.copy(), heavy_16.copy(), heavy_20.copy(), heavy_24.copy()]
 
 
 # Function to extract and print the relevant information
