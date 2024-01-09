@@ -630,7 +630,11 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
         plt.grid(True)
 
         # Salva e mostra o gráfico
-        plt.savefig(f'{titulo}.png')
+        if pods == 'pods':
+            plt.savefig(f'{titulo}.png')
+        else:
+            plt.savefig(f'Deployments -{titulo}.png')
+
         plt.show()
     else:
         espaco_entre_grupos = 0.4
@@ -689,7 +693,10 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
                   borderaxespad=0, ncol=3, fontsize=14)
 
         # Salva e mostra o gráfico
-        plt.savefig(f'{titulo}.png')
+        if pods == 'pods':
+            plt.savefig(f'{titulo}.png')
+        else:
+            plt.savefig(f'Deployments -{titulo}.png')
         plt.show()
 
 
