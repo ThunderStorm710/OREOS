@@ -480,10 +480,8 @@ def limpeza_outliers(data):
         data = data.tolist()
     mean = np.mean(data)
     std_dev = np.std(data)
-    # Definindo o limite para considerar um dado como outlier
     threshold = 2
 
-    # Identificando outliers
     outliers = (data < (mean - threshold * std_dev)) | (data > (mean + threshold * std_dev))
     outliers = outliers.tolist()
     print(outliers)
@@ -495,9 +493,7 @@ def limpeza_outliers(data):
             outliers.pop(i)
             i = 0
         i += 1
-    # Filtrando os outliers
-    #cleaned_data_corrected = data[~outliers]
-    print(data)
+    #print(data)
     return data
 
 
@@ -581,8 +577,12 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str, fic
     plt.show()
 
 
-def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo):
-    grupos_grandes = ['1 client', '4 clients', '8 clients', '12 clients', '16 clients', '20 clients', '24 clients']
+def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo, pods: str = 'pods'):
+    if pods == 'pods':
+        grupos_grandes = ['1 pod', '4 pods', '8 pods', '12 pods', '16 pods', '20 pods', '24 pods']
+
+    else:
+        grupos_grandes = ['5 pod', '20 pods', '40 pods', '60 pods', '80 pods', '100 pods', '120 pods']
     subgrupos = ['Mínimo', 'Mediana', 'Máximo']
     nomes = ['Minimum', 'Median', 'Maximum']
 
@@ -605,19 +605,19 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
         for i, grupo in enumerate(grupos_grandes):
             posicao_grupo = indices_grandes[i]
 
-            valor_k0s = valoresk0s[i]['pods'][titulo]['Mediana'][1]
-            ic_k0s = (valoresk0s[i]['pods'][titulo]['Mediana'][2] - valoresk0s[i]['pods'][titulo]['Mediana'][0]) / 2
-            ax.bar(posicao_grupo, valor_k0s, largura, yerr=ic_k0s, label='k0s', color=cores, capsize=2, hatch="/")
+            valor_k0s = valoresk0s[i][pods][titulo]['Mediana'][1]
+            ic_k0s = (valoresk0s[i][pods][titulo]['Mediana'][2] - valoresk0s[i][pods][titulo]['Mediana'][0]) / 2
+            ax.bar(posicao_grupo, valor_k0s, largura, yerr=ic_k0s, label='k0s', color=cores[0], capsize=2, hatch="\\")
 
-            valor_k3s = valoresk3s[i]['pods'][titulo]['Mediana'][1]
-            ic_k3s = (valoresk3s[i]['pods'][titulo]['Mediana'][2] - valoresk3s[i]['pods'][titulo]['Mediana'][0]) / 2
-            ax.bar(posicao_grupo + largura, valor_k3s, largura, yerr=ic_k3s, label='k3s', color=cores, capsize=2,
-                   hatch="|")
+            valor_k3s = valoresk3s[i][pods][titulo]['Mediana'][1]
+            ic_k3s = (valoresk3s[i][pods][titulo]['Mediana'][2] - valoresk3s[i][pods][titulo]['Mediana'][0]) / 2
+            ax.bar(posicao_grupo + largura, valor_k3s, largura, yerr=ic_k3s, label='k3s', color=cores[1], capsize=2,
+                   hatch="X")
 
-            valor_k8s = valoresk8s[i]['pods'][titulo]['Mediana'][1]
-            ic_k8s = (valoresk8s[i]['pods'][titulo]['Mediana'][2] - valoresk8s[i]['pods'][titulo]['Mediana'][0]) / 2
-            ax.bar(posicao_grupo + largura * 2, valor_k8s, largura, yerr=ic_k8s, label='k8s', color=cores, capsize=2,
-                   hatch="-")
+            valor_k8s = valoresk8s[i][pods][titulo]['Mediana'][1]
+            ic_k8s = (valoresk8s[i][pods][titulo]['Mediana'][2] - valoresk8s[i][pods][titulo]['Mediana'][0]) / 2
+            ax.bar(posicao_grupo + largura * 2, valor_k8s, largura, yerr=ic_k8s, label='k8s', color=cores[2], capsize=2,
+                   hatch="/")
 
         ax.set_xticks(indices_grandes + 0.1)
         ax.set_xticklabels(grupos_grandes, fontsize=14)
@@ -633,46 +633,46 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
         plt.savefig(f'{titulo}.png')
         plt.show()
     else:
-
+        espaco_entre_grupos = 0.4
+        largura = 0.1
         num_subgrupos = len(subgrupos)
         total_largura = (num_subgrupos * largura) + ((num_subgrupos - 1) * espaco_entre_grupos)
         indices_grandes = np.arange(len(grupos_grandes)) * (total_largura + 2 * espaco_entre_grupos)
 
         fig, ax = plt.subplots(figsize=(15, 6))
+        hatch = ''
 
         # Desenhar as barras para cada plataforma
         for i, subgrupo in enumerate(subgrupos):
             posicoes = indices_grandes + (i * (largura + espaco_entre_grupos))
 
-            valores_k0s = [valoresk0s[grupo]['pods'][titulo][subgrupo][1] for grupo in
-                           range(len(grupos_grandes))]
-            print(valoresk0s[0]['pods'][titulo])
-            print(valoresk0s[0]['pods'][titulo]['Mediana'][0])
-            print(valoresk0s[0]['pods'][titulo]['Mediana'][1])
-            print(valoresk0s[0]['pods'][titulo]['Mediana'][2])
-            ic_k0s = [(valoresk0s[grupo]['pods'][titulo][subgrupo][2] -
-                       valoresk0s[grupo]['pods'][titulo][subgrupo][0]) / 2 for grupo in
+            valores_k0s = [valoresk0s[grupo][pods][titulo][subgrupo][1] for grupo in range(len(grupos_grandes))]
+            # print(valoresk0s[0]['pods'][titulo])
+            # print(valoresk0s[0]['pods'][titulo]['Mediana'][0])
+            # print(valoresk0s[0]['pods'][titulo]['Mediana'][1])
+            # print(valoresk0s[0]['pods'][titulo]['Mediana'][2])
+            if subgrupo == 'Mínimo':
+                hatch = '\\'
+            if subgrupo == 'Mediana':
+                hatch = 'X'
+            if subgrupo == 'Máximo':
+                hatch = '/'
+            ic_k0s = [(valoresk0s[grupo][pods][titulo][subgrupo][2] - valoresk0s[grupo][pods][titulo][subgrupo][0]) / 2 for grupo in
                       range(len(grupos_grandes))]
-            ax.bar(posicoes, valores_k0s, largura, yerr=ic_k0s, label=f'k0s - {nomes[i]}', color=cores_k0s[i],
-                   capsize=2, hatch="-")
+            ax.bar(posicoes, valores_k0s, largura, yerr=ic_k0s, label=f'k0s - {nomes[i]}', color=cores[0],
+                   capsize=2, hatch=hatch)
 
-            valores_k3s = [valoresk3s[grupo]['pods'][titulo][subgrupo][1] for grupo in
-                           range(len(grupos_grandes))]
-            ic_k3s = [(valoresk3s[grupo]['pods'][titulo][subgrupo][2] -
-                       valoresk3s[grupo]['pods'][titulo][subgrupo][0]) / 2 for grupo in
-                      range(len(grupos_grandes))]
+            valores_k3s = [valoresk3s[grupo][pods][titulo][subgrupo][1] for grupo in range(len(grupos_grandes))]
+            ic_k3s = [(valoresk3s[grupo][pods][titulo][subgrupo][2] - valoresk3s[grupo][pods][titulo][subgrupo][0]) / 2 for grupo in range(len(grupos_grandes))]
             ax.bar(posicoes + largura, valores_k3s, largura, yerr=ic_k3s, label=f'k3s - {nomes[i]} ',
-                   color=cores_k3s[i],
-                   capsize=2, hatch="-")
+                   color=cores[1],
+                   capsize=2, hatch=hatch)
 
-            valores_k8s = [valoresk8s[grupo]['pods'][titulo][subgrupo][1] for grupo in
-                           range(len(grupos_grandes))]
-            ic_k8s = [(valoresk8s[grupo]['pods'][titulo][subgrupo][2] -
-                       valoresk8s[grupo]['pods'][titulo][subgrupo][0]) / 2 for grupo in
-                      range(len(grupos_grandes))]
+            valores_k8s = [valoresk8s[grupo][pods][titulo][subgrupo][1] for grupo in range(len(grupos_grandes))]
+            ic_k8s = [(valoresk8s[grupo][pods][titulo][subgrupo][2] - valoresk8s[grupo][pods][titulo][subgrupo][0]) / 2 for grupo in range(len(grupos_grandes))]
             ax.bar(posicoes + largura * 2, valores_k8s, largura, yerr=ic_k8s, label=f'k8s - {nomes[i]}',
-                   color=cores_k8s[i],
-                   capsize=2, hatch="/")
+                   color=cores[2],
+                   capsize=2, hatch=hatch)
 
         # Configurações adicionais do gráfico
         ax.set_xticks(indices_grandes + total_largura / 2)
@@ -968,6 +968,14 @@ if __name__ == '__main__':
     criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Starting Latency Stats")
     criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Creation Avg Latency")
     criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Startup Total Latency")
+
+    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Creation Throughput", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Client-Server E2E Latency", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Scheduling Latency Stats", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Initialization Latency (Kubelet)", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Starting Latency Stats", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Creation Avg Latency", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Startup Total Latency", 'deployments')
     '''
     for i in estatisticas_deployment_k0s.keys():
         criar_grafico_de_barras(estatisticas_deployment_k3s[i], estatisticas_deployment_k8s[i],
