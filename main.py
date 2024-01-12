@@ -466,9 +466,7 @@ def calcular_intervalo_confianca(dados, alpha):
     intervalo_superior = media + margem_erro
 
     if intervalo_inferior < 0:
-        print(intervalo_inferior, "-_-!")
         intervalo_inferior = 1
-    print(intervalo_inferior, "-_-")
 
     return intervalo_inferior, intervalo_superior
 
@@ -484,16 +482,13 @@ def limpeza_outliers(data):
 
     outliers = (data < (mean - threshold * std_dev)) | (data > (mean + threshold * std_dev))
     outliers = outliers.tolist()
-    print(outliers)
     i = 0
     while i < len(data):
         if outliers[i]:
-            print(type(data))
             data.pop(i)
             outliers.pop(i)
             i = 0
         i += 1
-    #print(data)
     return data
 
 
@@ -579,16 +574,16 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str, fic
 
 def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo, pods: str = 'pods'):
     if pods == 'pods':
-        grupos_grandes = ['1 pod', '4 pods', '8 pods', '12 pods', '16 pods', '20 pods', '24 pods']
+        #grupos_grandes = ['1 pod', '4 pods', '8 pods', '12 pods', '16 pods', '20 pods', '24 pods']
+        grupos_grandes = ['1 pod', '8 pods', '16 pods', '24 pods']
 
     else:
-        grupos_grandes = ['5 pod', '20 pods', '40 pods', '60 pods', '80 pods', '100 pods', '120 pods']
+        #grupos_grandes = ['5 pod', '20 pods', '40 pods', '60 pods', '80 pods', '100 pods', '120 pods']
+        grupos_grandes = ['5 pod', '40 pods', '80 pods', '120 pods']
+
     subgrupos = ['Mínimo', 'Mediana', 'Máximo']
     nomes = ['Minimum', 'Median', 'Maximum']
 
-    cores_k0s = ['blue', 'red', 'purple']
-    cores_k3s = ['green', 'orange', 'magenta']
-    cores_k8s = ['cyan', 'yellow', 'pink']
     cores = ['blue', 'green', 'orange']
 
     largura = 0.1
@@ -612,20 +607,20 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
             valor_k3s = valoresk3s[i][pods][titulo]['Mediana'][1]
             ic_k3s = (valoresk3s[i][pods][titulo]['Mediana'][2] - valoresk3s[i][pods][titulo]['Mediana'][0]) / 2
             ax.bar(posicao_grupo + largura, valor_k3s, largura, yerr=ic_k3s, label='k3s', color=cores[1], capsize=2,
-                   hatch="X")
+                   hatch=".")
 
             valor_k8s = valoresk8s[i][pods][titulo]['Mediana'][1]
             ic_k8s = (valoresk8s[i][pods][titulo]['Mediana'][2] - valoresk8s[i][pods][titulo]['Mediana'][0]) / 2
             ax.bar(posicao_grupo + largura * 2, valor_k8s, largura, yerr=ic_k8s, label='k8s', color=cores[2], capsize=2,
-                   hatch="/")
+                   hatch="+")
 
         ax.set_xticks(indices_grandes + 0.1)
-        ax.set_xticklabels(grupos_grandes, fontsize=14)
-        ax.set_ylabel("Throughput (pods/minutes)", fontsize=14)
+        ax.set_xticklabels(grupos_grandes, fontsize=24)
+        ax.set_ylabel("Throughput (pods/minutes)", fontsize=24)
 
         plt.grid(True)
         plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand",
-                   borderaxespad=0, ncol=3, fontsize=14)
+                   borderaxespad=0, ncol=3, fontsize=16)
         plt.tight_layout(rect=[0, 0, 1, 1])
         plt.grid(True)
 
@@ -658,9 +653,9 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
             if subgrupo == 'Mínimo':
                 hatch = '\\'
             if subgrupo == 'Mediana':
-                hatch = 'X'
+                hatch = '.'
             if subgrupo == 'Máximo':
-                hatch = '/'
+                hatch = '+'
             ic_k0s = [(valoresk0s[grupo][pods][titulo][subgrupo][2] - valoresk0s[grupo][pods][titulo][subgrupo][0]) / 2 for grupo in
                       range(len(grupos_grandes))]
             ax.bar(posicoes, valores_k0s, largura, yerr=ic_k0s, label=f'k0s - {nomes[i]}', color=cores[0],
@@ -680,17 +675,17 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
 
         # Configurações adicionais do gráfico
         ax.set_xticks(indices_grandes + total_largura / 2)
-        ax.set_xticklabels(grupos_grandes, fontsize=14)
+        ax.set_xticklabels(grupos_grandes, fontsize=24)
 
-        ax.set_ylabel("Time (ms)", fontsize=14)
+        ax.set_ylabel("Time (ms)", fontsize=24)
 
         plt.grid(True)
         ax.legend()
-        plt.tight_layout(rect=[0, 0, 1, 0.85])
+        plt.tight_layout(rect=[0, 0, 1, 0.8])
         plt.grid(True)
 
         ax.legend(bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand",
-                  borderaxespad=0, ncol=3, fontsize=14)
+                  borderaxespad=0, ncol=3, fontsize=20)
 
         # Salva e mostra o gráfico
         if pods == 'pods':
@@ -707,7 +702,6 @@ def criar_grafico_de_barras_api(valoresk0s, valoresk3s, valoresk8s, titulo: str)
 
     posicoes = list(range(len(operacoes)))
     largura = 0.2
-
     k0s = [valoresk0s['Create Latency']['Mediana'][1], valoresk0s['Delete Latency']['Mediana'][1],
            valoresk0s['Get Latency']['Mediana'][1], valoresk0s['List Latency']['Mediana'][1],
            valoresk0s['Update Latency']['Mediana'][1]]
@@ -718,15 +712,18 @@ def criar_grafico_de_barras_api(valoresk0s, valoresk3s, valoresk8s, titulo: str)
            valoresk8s['Get Latency']['Mediana'][1], valoresk8s['List Latency']['Mediana'][1],
            valoresk8s['Update Latency']['Mediana'][1]]
 
-    ic_k0s = [valoresk0s['Create Latency']['Mínimo'][1], valoresk0s['Delete Latency']['Mínimo'][1],
-              valoresk0s['Get Latency']['Mínimo'][1], valoresk0s['List Latency']['Mínimo'][1],
-              valoresk0s['Update Latency']['Mínimo'][1]]
-    ic_k8s = [valoresk8s['Create Latency']['Mínimo'][1], valoresk8s['Delete Latency']['Mínimo'][1],
-              valoresk8s['Get Latency']['Mínimo'][1], valoresk8s['List Latency']['Mínimo'][1],
-              valoresk8s['Update Latency']['Mínimo'][1]]
-    ic_k3s = [valoresk3s['Create Latency']['Mínimo'][1], valoresk3s['Delete Latency']['Mínimo'][1],
-              valoresk3s['Get Latency']['Mínimo'][1], valoresk3s['List Latency']['Mínimo'][1],
-              valoresk3s['Update Latency']['Mínimo'][1]]
+
+
+    ic_k0s = [(valoresk0s['Create Latency']['Mediana'][2] - valoresk0s['Create Latency']['Mediana'][0])/2, (valoresk0s['Delete Latency']['Mediana'][2]-valoresk0s['Delete Latency']['Mediana'][0])/2,
+              (valoresk0s['Get Latency']['Mediana'][2]-valoresk0s['Get Latency']['Mediana'][0])/2, (valoresk0s['List Latency']['Mediana'][2]-valoresk0s['List Latency']['Mediana'][0])/2,
+              (valoresk0s['Update Latency']['Mediana'][2]-valoresk0s['Update Latency']['Mediana'][0])/2]
+    ic_k8s = [(valoresk8s['Create Latency']['Mediana'][2]-valoresk8s['Create Latency']['Mediana'][0])/2, (valoresk8s['Delete Latency']['Mediana'][2]-valoresk8s['Delete Latency']['Mediana'][0])/2,
+              (valoresk8s['Get Latency']['Mediana'][2]-valoresk8s['Get Latency']['Mediana'][0])/2, (valoresk8s['List Latency']['Mediana'][2]-valoresk8s['List Latency']['Mediana'][0])/2,
+              (valoresk8s['Update Latency']['Mediana'][2]-valoresk8s['Update Latency']['Mediana'][0])/2]
+    ic_k3s = [(valoresk3s['Create Latency']['Mediana'][2]-valoresk3s['Create Latency']['Mediana'][0])/2, (valoresk3s['Delete Latency']['Mediana'][2]-valoresk3s['Delete Latency']['Mediana'][0])/2,
+              (valoresk3s['Get Latency']['Mediana'][2]-valoresk3s['Get Latency']['Mediana'][0])/2, (valoresk3s['List Latency']['Mediana'][2]-valoresk3s['List Latency']['Mediana'][0])/2,
+              (valoresk3s['Update Latency']['Mediana'][2]-valoresk3s['Update Latency']['Mediana'][0])/2]
+
 
     plt.figure(figsize=(10, 5))
     plt.grid(True)
@@ -745,9 +742,7 @@ def criar_grafico_de_barras_api(valoresk0s, valoresk3s, valoresk8s, titulo: str)
                borderaxespad=0, ncol=3)
     # Salva e mostra o gráfico
     # plt.tight_layout(rect=[0, 0, 1, 0.85])
-    titulo = titulo.replace(' ', '_').replace('>', '')
-    file = f"{titulo}.png"
-    plt.savefig(file)
+    plt.savefig(titulo)
     plt.show()
 
 
@@ -968,21 +963,22 @@ if __name__ == '__main__':
             'Pod Startup Total Latency': [],
         }
 
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Creation Throughput")
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Client-Server E2E Latency")
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Scheduling Latency Stats")
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Initialization Latency (Kubelet)")
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Starting Latency Stats")
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Creation Avg Latency")
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Startup Total Latency")
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Creation Throughput")
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Client-Server E2E Latency")
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Scheduling Latency Stats")
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Initialization Latency (Kubelet)")
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Starting Latency Stats")
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Creation Avg Latency")
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Startup Total Latency")
 
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Creation Throughput", 'deployments')
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Client-Server E2E Latency", 'deployments')
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Scheduling Latency Stats", 'deployments')
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Initialization Latency (Kubelet)", 'deployments')
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Starting Latency Stats", 'deployments')
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Creation Avg Latency", 'deployments')
-    criar_grafico_de_barras_separados(k0sGlobal, k3sGlobal, k8sGlobal, "Pod Startup Total Latency", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Creation Throughput", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Client-Server E2E Latency", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Scheduling Latency Stats", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Initialization Latency (Kubelet)", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Starting Latency Stats", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Creation Avg Latency", 'deployments')
+    criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Startup Total Latency", 'deployments')
+
     '''
     for i in estatisticas_deployment_k0s.keys():
         criar_grafico_de_barras(estatisticas_deployment_k3s[i], estatisticas_deployment_k8s[i],
@@ -992,5 +988,11 @@ if __name__ == '__main__':
                                 '''
 
     # criar_grafico_de_barras_api(data, "Service API --> ")
-    # criar_grafico_de_barras_api(estatisticas_pod_api_k0s,estatisticas_pod_api_k3s, estatisticas_pod_api_k8s,f"{ficheiro}-PodAPI")
+    criar_grafico_de_barras_api(k0sGlobal[0]['service_api'], k3sGlobal[0]['service_api'], k8sGlobal[0]['service_api'], f"1 pod - CRUD - Service API")
+    criar_grafico_de_barras_api(k0sGlobal[1]['service_api'], k3sGlobal[1]['service_api'], k8sGlobal[1]['service_api'], f"4 pod - CRUD - Service API")
+    criar_grafico_de_barras_api(k0sGlobal[2]['service_api'], k3sGlobal[2]['service_api'], k8sGlobal[2]['service_api'], f"8 pod - CRUD - Service API")
+    criar_grafico_de_barras_api(k0sGlobal[3]['service_api'], k3sGlobal[3]['service_api'], k8sGlobal[3]['service_api'], f"12 pod - CRUD - Service API")
+    criar_grafico_de_barras_api(k0sGlobal[4]['service_api'], k3sGlobal[4]['service_api'], k8sGlobal[4]['service_api'], f"16 pod - CRUD - Service API")
+    criar_grafico_de_barras_api(k0sGlobal[5]['service_api'], k3sGlobal[5]['service_api'], k8sGlobal[5]['service_api'], f"20 pod - CRUD - Service API")
+    criar_grafico_de_barras_api(k0sGlobal[6]['service_api'], k3sGlobal[6]['service_api'], k8sGlobal[6]['service_api'], f"24 pod - CRUD - Service API")
     # criar_grafico_de_barras_api(estatisticas_namespace_api_k3s[i], estatisticas_namespace_api_k8s[i],estatisticas_namespace_api_k0s[i], f"{ficheiro}-NamespaceAPI")
