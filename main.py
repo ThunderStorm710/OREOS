@@ -560,11 +560,11 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str, fic
     if not "Throughput" in titulo:
         plt.ylabel("Time (ms)")
     else:
-        plt.ylabel("Number of pods per second")
+        plt.ylabel("(pods/min)")
 
     plt.tight_layout(rect=[0, 0, 1, 0.85])
     plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand",
-               borderaxespad=0, ncol=3)
+               borderaxespad=0, ncol=3, frameon=False)
     titulo = titulo.replace(" ", "")
     titulo = titulo.replace(">", "")
     file = f"{titulo}-{ficheiro}.png"
@@ -573,13 +573,21 @@ def criar_grafico_de_barras(valoresk3s, valoresk8s, valoresk0s, titulo: str, fic
 
 
 def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo, pods: str = 'pods'):
+
+    valoresk8s = valoresk8s[3:4]
+    valoresk3s = valoresk3s[3:4]
+    valoresk0s = valoresk0s[3:4]
+
     if pods == 'pods':
         #grupos_grandes = ['1 pod', '4 pods', '8 pods', '12 pods', '16 pods', '20 pods', '24 pods']
-        grupos_grandes = ['1 pod', '8 pods', '16 pods', '24 pods']
+        #grupos_grandes = ['1 pod', '8 pods', '16 pods', '24 pods']
+        grupos_grandes = ['24 pod']
 
     else:
         #grupos_grandes = ['5 pod', '20 pods', '40 pods', '60 pods', '80 pods', '100 pods', '120 pods']
-        grupos_grandes = ['5 pod', '40 pods', '80 pods', '120 pods']
+        #grupos_grandes = ['5 pod', '40 pods', '80 pods', '120 pods']
+        grupos_grandes = ['120 pods']
+
 
     subgrupos = ['Mínimo', 'Mediana', 'Máximo']
     nomes = ['Minimum', 'Median', 'Maximum']
@@ -620,15 +628,15 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
 
         plt.grid(True)
         plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand",
-                   borderaxespad=0, ncol=3, fontsize=16)
+                   borderaxespad=0, ncol=3, fontsize=16, frameon=False)
         plt.tight_layout(rect=[0, 0, 1, 1])
         plt.grid(True)
 
         # Salva e mostra o gráfico
         if pods == 'pods':
-            plt.savefig(f'{titulo}.png')
+            plt.savefig(f'{titulo} 24.png')
         else:
-            plt.savefig(f'Deployments -{titulo}.png')
+            plt.savefig(f'Deployments - {titulo} 120.png')
 
         plt.show()
     else:
@@ -685,20 +693,21 @@ def criar_grafico_de_barras_separados(valoresk0s, valoresk3s, valoresk8s, titulo
         plt.grid(True)
 
         ax.legend(bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand",
-                  borderaxespad=0, ncol=3, fontsize=20)
+                  borderaxespad=0, ncol=3, fontsize=20, frameon=False)
 
         # Salva e mostra o gráfico
         if pods == 'pods':
-            plt.savefig(f'{titulo}.png')
+            plt.savefig(f'{titulo} 24.png')
         else:
-            plt.savefig(f'Deployments -{titulo}.png')
+            plt.savefig(f'Deployments - {titulo} 120.png')
         plt.show()
 
 
 def criar_grafico_de_barras_api(valoresk0s, valoresk3s, valoresk8s, titulo: str):
     operacoes = ['Create Latency', 'Delete Latency', 'Get Latency', 'List Latency', 'Update Latency']
     labels = ['k0s', 'k3s', 'k8s']
-    cores = ['grey', 'blue', 'orange', 'black']
+    cores = ['blue', 'green', 'orange']
+
 
     posicoes = list(range(len(operacoes)))
     largura = 0.2
@@ -728,9 +737,9 @@ def criar_grafico_de_barras_api(valoresk0s, valoresk3s, valoresk8s, titulo: str)
     plt.figure(figsize=(10, 5))
     plt.grid(True)
 
-    plt.bar([p - largura for p in posicoes], k0s, width=largura, label='k0s', color='green', yerr=ic_k0s, capsize=5)
-    plt.bar(posicoes, k3s, width=largura, label='k3s', color='blue', yerr=ic_k3s, capsize=5)
-    plt.bar([p + largura for p in posicoes], k8s, width=largura, label='k8s', color='orange', yerr=ic_k8s, capsize=5)
+    plt.bar([p - largura for p in posicoes], k0s, width=largura, label='k0s', color='blue', yerr=ic_k0s, capsize=5, hatch="\\")
+    plt.bar(posicoes, k3s, width=largura, label='k3s', color='green', yerr=ic_k3s, capsize=5, hatch=".")
+    plt.bar([p + largura for p in posicoes], k8s, width=largura, label='k8s', color='orange', yerr=ic_k8s, capsize=5, hatch="+")
 
     plt.xticks(posicoes, operacoes)
 
@@ -739,7 +748,7 @@ def criar_grafico_de_barras_api(valoresk0s, valoresk3s, valoresk8s, titulo: str)
     # Adiciona título e legenda
     # plt.title(titulo)
     plt.legend(['k0s', 'k3s', 'k8s'], bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand",
-               borderaxespad=0, ncol=3)
+               borderaxespad=0, ncol=3, frameon=False)
     # Salva e mostra o gráfico
     # plt.tight_layout(rect=[0, 0, 1, 0.85])
     plt.savefig(titulo)
@@ -962,7 +971,7 @@ if __name__ == '__main__':
             'Pod Creation Avg Latency': [],
             'Pod Startup Total Latency': [],
         }
-
+    '''
     criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Creation Throughput")
     criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Client-Server E2E Latency")
     criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Scheduling Latency Stats")
@@ -978,7 +987,7 @@ if __name__ == '__main__':
     criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Starting Latency Stats", 'deployments')
     criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Creation Avg Latency", 'deployments')
     criar_grafico_de_barras_separados(k0sGlobal[::2], k3sGlobal[::2], k8sGlobal[::2], "Pod Startup Total Latency", 'deployments')
-
+'''
     '''
     for i in estatisticas_deployment_k0s.keys():
         criar_grafico_de_barras(estatisticas_deployment_k3s[i], estatisticas_deployment_k8s[i],
