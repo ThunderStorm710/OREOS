@@ -841,3 +841,19 @@ if __name__ == '__main__':
                              f"20 pod - CRUD - Service API")
     bar_plots_api_statistics(k0sGlobal[6]['service_api'], k3sGlobal[6]['service_api'], k8sGlobal[6]['service_api'],
                              f"24 pod - CRUD - Service API")
+
+
+    bar_plots_api_statistics(k0sGlobal[0]['deployment_api'], k3sGlobal[0]['deployment_api'], k8sGlobal[0]['deployment_api'],
+                             f"1 pod - CRUD - Deployment API")
+    bar_plots_api_statistics(k0sGlobal[1]['deployment_api'], k3sGlobal[1]['deployment_api'], k8sGlobal[1]['deployment_api'],
+                             f"4 pod - CRUD - Deployment API")
+    bar_plots_api_statistics(k0sGlobal[2]['deployment_api'], k3sGlobal[2]['deployment_api'], k8sGlobal[2]['deployment_api'],
+                             f"8 pod - CRUD - Deployment API")
+    bar_plots_api_statistics(k0sGlobal[3]['deployment_api'], k3sGlobal[3]['deployment_api'], k8sGlobal[3]['deployment_api'],
+                             f"12 pod - CRUD - Deployment API")
+    bar_plots_api_statistics(k0sGlobal[4]['deployment_api'], k3sGlobal[4]['deployment_api'], k8sGlobal[4]['deployment_api'],
+                             f"16 pod - CRUD - Deployment API")
+    bar_plots_api_statistics(k0sGlobal[5]['deployment_api'], k3sGlobal[5]['deployment_api'], k8sGlobal[5]['deployment_api'],
+                             f"20 pod - CRUD - Deployment API")
+    bar_plots_api_statistics(k0sGlobal[6]['deployment_api'], k3sGlobal[6]['deployment_api'], k8sGlobal[6]['deployment_api'],
+                             f"24 pod - CRUD - Deployment API")
